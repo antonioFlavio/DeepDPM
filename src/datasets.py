@@ -55,6 +55,37 @@ class MNIST(MyDataset):
 
     def get_test_data(self):
         return datasets.MNIST(self.data_dir, train=False, transform=self.transformer)
+
+class TEXTDATASET(MyDataset):
+    def __init__(self, args):
+        super().__init__(args)        
+
+    def get_train_data(self):
+        diretorio = self.data_dir
+
+        codes = torch.load(diretorio + "/train_codes.pt")
+        labels = torch.load(diretorio + "/train_labels.pt")
+
+        tamanho_dataset = len(codes)
+
+        # Ajuste para não dar erro na execução do deepdpm
+        itens_remover = tamanho_dataset % 100
+
+        codes = codes[:tamanho_dataset - itens_remover]
+        labels = codes[:tamanho_dataset - itens_remover]
+
+        train_set = TensorDataset(codes, labels)
+        return train_set
+
+    def get_test_data(self):
+        diretorio = self.data_dir
+
+        codes = torch.load(diretorio + "/val_codes.pt")
+        labels = torch.load(diretorio + "/val_labels.pt")
+
+        test_set = TensorDataset(codes, labels)
+        return test_set
+
 class STL10(MyDataset):
     def __init__(self, args, split="train"):
         super().__init__(args)

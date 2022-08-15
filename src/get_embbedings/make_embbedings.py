@@ -4,6 +4,9 @@
 # Copyright (c) 2022 Meitar Ronen
 #
 
+import sys
+sys.path.append('./')
+
 import os
 import torch
 import torch.nn as nn
