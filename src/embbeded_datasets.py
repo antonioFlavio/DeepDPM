@@ -28,7 +28,7 @@ class embbededDataset:
         self.transform = args.transform
         self.dataset_loc = os.path.join(args.dir, f"{args.dataset.upper()}")
 
-    def get_train_data(self):
+    def get_train_data(self):        
         train_codes = torch.Tensor(torch.load(os.path.join(self.dataset_loc, "train_codes.pt")))
         labels = torch.load(os.path.join(self.dataset_loc, "train_labels.pt"))
         

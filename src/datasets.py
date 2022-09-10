@@ -51,6 +51,7 @@ class MNIST(MyDataset):
         self._input_dim = 28 * 28
 
     def get_train_data(self):
+        print(" ---------- Obtendo MNIST ----------")
         return datasets.MNIST(self.data_dir, train=True, download=True, transform=self.transformer)
 
     def get_test_data(self):
@@ -58,10 +59,12 @@ class MNIST(MyDataset):
 
 class TEXTDATASET(MyDataset):
     def __init__(self, args):
-        super().__init__(args)        
+        super().__init__(args)           
 
     def get_train_data(self):
-        diretorio = self.data_dir
+        diretorio = self.data_dir        
+
+        print("Lendo dataset: {}".format(diretorio + "/train_codes.pt"))
 
         codes = torch.load(diretorio + "/train_codes.pt")
         labels = torch.load(diretorio + "/train_labels.pt")
@@ -72,7 +75,7 @@ class TEXTDATASET(MyDataset):
         itens_remover = tamanho_dataset % 100
 
         codes = codes[:tamanho_dataset - itens_remover]
-        labels = codes[:tamanho_dataset - itens_remover]
+        labels = labels[:tamanho_dataset - itens_remover]
 
         train_set = TensorDataset(codes, labels)
         return train_set

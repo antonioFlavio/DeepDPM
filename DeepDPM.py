@@ -6,6 +6,7 @@
 
 import argparse
 from argparse import ArgumentParser
+from copyreg import constructor
 import os
 from pytorch_lightning.loggers.neptune import NeptuneLogger
 from pytorch_lightning.loggers.base import DummyLogger
@@ -16,7 +17,7 @@ from scipy.optimize import linear_sum_assignment as linear_assignment
 import numpy as np
 
 from src.embbeded_datasets import embbededDataset
-from src.datasets import GMM_dataset
+from src.datasets import GMM_dataset, TEXTDATASET
 from src.clustering_models.clusternet_modules.clusternetasmodel import ClusterNetModel
 
 
@@ -395,11 +396,14 @@ def train_cluster_net():
 
     args.train_cluster_net = args.max_epochs
     args.features_dim = args.latent_dim
-    
-    if args.dataset == "synthetic":
-        dataset_obj = GMM_dataset(args)
+
+    if args.dataset == "TEXTDATASET":        
+        dataset_obj = TEXTDATASET(args)
     else:
-        dataset_obj = embbededDataset(args)
+        if args.dataset == "synthetic":        
+            dataset_obj = GMM_dataset(args)
+        else:
+            dataset_obj = embbededDataset(args)
     train_loader, val_loader = dataset_obj.get_loaders()
 
     tags = ['umap_embbeded_dataset']
