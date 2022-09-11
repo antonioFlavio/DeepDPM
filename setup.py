@@ -10,7 +10,7 @@ except:
     print("distutils can't remove 'dist' and 'build'")
 
 # parse_requirements() returns generator of pip.req.InstallRequirement objects
-install_reqs = parse_requirements('requirements.txt', session=False)
+install_reqs = parse_requirements('requirements-new.txt', session=False)
 
 # reqs is a list of requirement
 try:
@@ -18,7 +18,7 @@ try:
 except:
     dependencies = [str(ir.requirement) for ir in install_reqs]
 
-VERSION = '0.1'
+VERSION = '0.1.1'
 
 setup(name='deep-dpm-antoniofork',
       version=VERSION,
